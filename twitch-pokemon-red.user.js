@@ -46,7 +46,7 @@ function isChatConnected(){
 
 function highlightPeeps(){ //Adds CSS styles for myself and one of my friends so I can see the chats as they wiz by.
     hideall();
-    // should iterate over JSON, but it's just be and Brian so it's not important.
+    // should iterate over JSON, but it's just me and Brian so it's not important.
     // (Maybe if we had our REST server fully setup and needed dynamic content then
     // I'd change my mind.)
     user('sonoflysander');          //me
