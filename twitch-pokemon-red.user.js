@@ -10,8 +10,8 @@
 // ==/UserScript==
 
 var controller = {
-    messageInterval = null,
-    selfControllingInterval = null,
+    messageInterval: null,
+    selfControllingInterval: null,
     createInterval: function() {
         if(!this.messageInterval){
             this.messageInterval = setInterval(function(){
