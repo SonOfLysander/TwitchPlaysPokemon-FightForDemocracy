@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.478
+// @version    0.479
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, SonOfLysander
@@ -26,12 +26,14 @@ var controller = {
                         'Maybe you should go to the pokecenter for that BURN', 'I really wanna go to bed... but I don\'t.'],
     go: function(timeout, resetPage){
         if (resetPage == true && this._pageResetId === null){
-            this._pageResetId = setTimeout(function(){location.reload();}, 300000);
+            this._pageResetId = setTimeout(function(){location.reload(true);}, 300000);
         }
 
         this._interval =
             (timeout === undefined ? this._randomHelper() : timeout)
-             + (this._slowRoomDetected ? this._slowRoomInterval : 0);
+             + (this._slowRoomDetected ? this._slowRoomInterval : 0)
+             + ($('.js-chat_countdown').length > 0 && parseInt($('.js-chat_countdown:last').text(), 10) > 0
+                                                    ? (parseInt($('.js-chat_countdown:last').text(), 10) * 1000) : 0) ;
 
         if (this._slowRoomIntervalIdA === null){
             this._slowRoomIntervalIdA = setInterval(function(){
