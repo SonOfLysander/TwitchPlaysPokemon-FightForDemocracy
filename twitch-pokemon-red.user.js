@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.460
+// @version    0.461
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -20,7 +20,7 @@ var controller = {
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
     go: function(timeout){
-        setTimeout(function(){this._sendMessage();}, timeout === undefined ? randomIntRange(this._intervalMin, this._intervalMax) : timeout);
+        setTimeout(function(){controller._sendMessage();}, timeout === undefined ? randomIntRange(this._intervalMin, this._intervalMax) : timeout);
     },
     _sendMessage: function() {
         var newInterval =
