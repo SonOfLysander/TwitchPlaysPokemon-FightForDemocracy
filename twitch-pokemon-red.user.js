@@ -13,8 +13,8 @@ var controller = {
     messageInterval = null;
     selfControllingInterval = null;
     createInterval: function() {
-        if(!messageInterval){
-            messageInterval = setInterval(function(){
+        if(!this.messageInterval){
+            this.messageInterval = setInterval(function(){
                 if (isChatConnected()){
                     var msg = playerMessage();
                     $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
@@ -23,12 +23,12 @@ var controller = {
                 }
             }, Math.floor(Math.random() * 12000) + 3000);
         }
-        if (!selfControllingInterval){
-            selfControllingInterval = setInterval(function(){this.resetInterval()}, 3400);
+        if (!this.selfControllingInterval){
+            this.selfControllingInterval = setInterval(function(){this.resetInterval()}, 3400);
         }
     },
     destroyInterval: function(){
-        if (messageInterval){
+        if (this.messageInterval){
             clearInterval(this.messageInterval);
         }
     },
