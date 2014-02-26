@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.476
+// @version    0.477
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, SonOfLysander
@@ -18,14 +18,19 @@ var controller = {
     _intervalId: null,
     _slowRoomIntervalIdA: null,
     _slowRoomIntervalIdB: null,
+    _pageResetId: null,
     _slowModeRegex: /.*this\sroom\sis\s(?:now\s|)in\sslow\smode.*/i,
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!', 'In case anyone was lost: http://goo.gl/xBmwY5',
                         'Maybe you should go to the pokecenter for that BURN', 'I really wanna go to bed... but I don\'t.'],
-    go: function(timeout){
+    go: function(timeout, resetPage){
+        if (resetPage == true && this._pageResetId === null){
+            this._pageResetId = setTimeout(function(){location.reload();}, 30000);
+        }
+
         this._interval =
-            (timeout === undefined ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout)
+            (timeout === undefined ? this._randomHelper() : timeout)
              + (this._slowRoomDetected ? this._slowRoomInterval : 0);
 
         if (this._slowRoomIntervalIdA === null){
@@ -94,6 +99,9 @@ var controller = {
     },
     _randomIntRange: function(min, max){
         return Math.floor(Math.random() * (max - min)) + min;
+    },
+    _randomHelper: function(){
+        return this._randomIntRange(this._intervalMin, this._intervalMax);
     }
 };
 
@@ -108,14 +116,11 @@ function user(usrnm, hxclr){
 
 function initializeDocument(){ //Adds CSS styles for myself and one of my friends so I can see the chats as they wiz by.
     hideall();
-    // should iterate over JSON, but it's just me and Brian so it's not important.
-    // (Maybe if we had our REST server fully setup and needed dynamic content then
-    // I'd change my mind.)
     user('sonoflysander');          //me
     user('bjwyxrs', '#BBF');        //my friend brian
 }
 
 $(document).ready(function(){
     initializeDocument();
-    controller.go();
+    controller.go(undefined, true);
 });
