@@ -24,7 +24,7 @@ var controller = {
         if(this._controllerInterval === null){
             var newInterval = randomIntRange(this.currentIntervalMin, this.currentIntervalMax);
             this._controllerInterval = setInterval(function(){
-                if (this._isChatConnected()){
+                if (controller._isChatConnected()){
                     var msg = playerMessage();
                     $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
                     $('#chat_text_input').val(msg);
