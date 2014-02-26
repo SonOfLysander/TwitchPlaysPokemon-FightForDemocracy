@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.466
+// @version    0.467
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -10,7 +10,9 @@
 // ==/UserScript==
 
 var controller = {
-    _timeLatencyMark: 0,
+    _slowRoomIntervalIdA: null,
+    _slowRoomIntervalIdB: null,
+    _slowRoomDetected: false,
     _intervalId: null,
     _intervalMin: 3200,
     _intervalMax: 15000,
@@ -21,8 +23,22 @@ var controller = {
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'I don wannna sleeeeeeeeeeeeeeeep'],
     go: function(timeout){
-        this._interval = timeout;
-        this._intervalId = setTimeout(function(){controller._sendMessage();}, typeof timeout === 'undefined' ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout);
+        this._interval =
+            typeof timeout === 'undefined' ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout
+             + this._slowRoomDetected ? 30 : 0;
+        this._intervalId = setTimeout(function(){
+            controller._sendMessage();
+        }, this._interval);
+
+        if (this._slowRoomIntervalIdA === null){
+            this._slowRoomIntervalIdA = setInterval(function(){
+                // http://rubular.com/r/OyTeAqnboA
+                controller._slowRoomDetected = controller._slowRoomDetected || controller._findString(controller._slowModeRegex, 'li.line.fromjtv').length > 0;
+            }, 2500);
+        }
+        if (this._slowRoomIntervalIdB === null){
+            this._slowRoomIntervalIdB = setInterval(function(){controller._slowRoomDetected = false}, 45000);
+        }
     },
     stop: function(){
         if (this._intervalId !== null){
@@ -30,9 +46,7 @@ var controller = {
         }
     },
     _sendMessage: function() {
-        var newInterval =
-            this._findString(this._slowModeRegex, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
-            30500 : this._randomIntRange(this._intervalMin, this._intervalMax);
+        var newInterval = this._randomIntRange(this._intervalMin, this._intervalMax);
         if (controller._isChatConnected()){
             var msg = controller._playerMessage();
             $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
@@ -59,10 +73,6 @@ var controller = {
         return msg;
     },
     _isChatConnected: function(){
-        // This is an odd condictional structure, but it's really due to the
-        // fact Twitch has an odd flow that I can't access directly by API with
-        // out putting more effort into this script, and less effort into my home-
-        // work that matters.
         if ($('#chat_text_input').prop('disabled') == true){
             return false;
         } else if ($('.js-chat_countdown').length > 0 && parseInt($('.js-chat_countdown:last').text(), 10) > 0){
