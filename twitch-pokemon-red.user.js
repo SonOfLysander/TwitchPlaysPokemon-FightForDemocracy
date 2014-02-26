@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.445
+// @version    0.446
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -24,7 +24,7 @@ var controller = {
         if(this._controllerInterval === null){
             var newInterval = randomIntRange(this.currentIntervalMin, this.currentIntervalMax);
             this._controllerInterval = setInterval(function(){
-                if (isChatConnected()){
+                if (this._isChatConnected()){
                     var msg = playerMessage();
                     $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
                     $('#chat_text_input').val(msg);
