@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.468
+// @version    0.470
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -24,11 +24,8 @@ var controller = {
                         'Maybe you should go to the pokecenter for that BURN', 'I really wanna go to bed... but I don\'t.'],
     go: function(timeout){
         this._interval =
-            typeof timeout === 'undefined' ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout
-             + this._slowRoomDetected ? 30 : 0;
-        this._intervalId = setTimeout(function(){
-            controller._sendMessage();
-        }, this._interval);
+            (typeof timeout === 'undefined' ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout)
+             + (this._slowRoomDetected ? 30000 : 0);
 
         if (this._slowRoomIntervalIdA === null){
             this._slowRoomIntervalIdA = setInterval(function(){
@@ -39,6 +36,12 @@ var controller = {
         if (this._slowRoomIntervalIdB === null){
             this._slowRoomIntervalIdB = setInterval(function(){controller._slowRoomDetected = false}, 45000);
         }
+
+        this._intervalId = setTimeout(function(){
+            controller._sendMessage();
+        }, this._interval);
+
+        console.log(this);
     },
     stop: function(){
         if (this._intervalId !== null){
@@ -46,15 +49,12 @@ var controller = {
         }
     },
     _sendMessage: function() {
-        var newInterval = this._randomIntRange(this._intervalMin, this._intervalMax);
         if (controller._isChatConnected()){
             var msg = controller._playerMessage();
             $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
             $('#chat_text_input').val(msg);
             $('#chat_speak').click();
         }
-        this.go(newInterval);
-        console.log(this);
     },
     _playerMessage: function(){
         // I refactored because of the recent bot raid. I decided that even though I'm not doing
