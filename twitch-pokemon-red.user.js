@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.454
+// @version    0.455
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -10,9 +10,10 @@
 // ==/UserScript==
 
 var controller = {
-    _controllerInterval: null,
-    _randomizerInterval: null,
+    _controllerIntervalId: null,
+    _randomizerIntervalId: null,
     _timeLatencyMark: 0,
+    _randomizerInterval: 34000,
     currentIntervalMin: 3200,
     currentIntervalMax: 15000,
     currentInterval: null,
@@ -21,11 +22,11 @@ var controller = {
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
     createInterval: function() {
-        if(this._controllerInterval === null){
+        if(this._controllerIntervalId === null){
             var newInterval =
                 this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
                 30500 : randomIntRange(this.currentIntervalMin, this.currentIntervalMax);
-            this._controllerInterval = setInterval(function(){
+            this._controllerIntervalId = setInterval(function(){
                 if (controller._isChatConnected()){
                     var msg = controller._playerMessage();
                     $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
@@ -35,23 +36,26 @@ var controller = {
             }, newInterval);
             this.currentInterval = newInterval;
         }
-        if (this._randomizerInterval === null){
-            //every 34 seconds, we get a new random chat entry interval.
-            this._randomizerInterval = setInterval(function(){controller.resetInterval()}, 34000);
-        }
+        this._resetRandomizer();
         console.log(this);
     },
     destroyInterval: function(){
-        if (this._controllerInterval !== null){
-            clearInterval(this._controllerInterval);
-            this._controllerInterval = null;
+        if (this._controllerIntervalId !== null){
+            clearInterval(this._controllerIntervalId);
+            this._controllerIntervalId = null;
         }
     },
     resetInterval:  function() {
         this.destroyInterval();
         this.createInterval();
     },
-
+    _resetRandomizer: function(){
+        if (this._randomizerIntervalId !== null){
+            clearInterval(this._randomizerIntervalId);
+        } else {
+            this._randomizerIntervalId = setInterval(function(){controller.resetInterval()}, this_randomizerInterval);
+        }
+    },
     _playerMessage: function(){
         // I refactored because of the recent bot raid. I decided that even though I'm not doing
         // anything particularly malicious, it would be best to put on a good face.
