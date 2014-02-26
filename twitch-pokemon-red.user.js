@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.443
+// @version    0.444
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -13,14 +13,16 @@ var controller = {
     _controllerInterval: null,
     _randomizerInterval: null,
     _timeLatencyMark: 0,
+    currentIntervalMin: 3200,
+    currentIntervalMax: 15000,
     currentIntervalMill: null,
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
     createInterval: function() {
-        if(!this._controllerInterval){
-            var newInterval = Math.floor(Math.random() * 12000) + 3000;
+        if(this._controllerInterval === null){
+            var newInterval = randomIntRange(this.currentIntervalMin, this.currentIntervalMax);
             this._controllerInterval = setInterval(function(){
                 if (isChatConnected()){
                     var msg = playerMessage();
@@ -31,14 +33,15 @@ var controller = {
             }, newInterval);
             this.currentIntervalMill = newInterval;
         }
-        if (!this._randomizerInterval){
+        if (this._randomizerInterval === null){
             this._randomizerInterval = setInterval(function(){controller.resetInterval()}, 3400);
         }
         console.log(this);
     },
     destroyInterval: function(){
-        if (this._controllerInterval){
+        if (this._controllerInterval !== null){
             clearInterval(this._controllerInterval);
+            this._controllerInterval = null;
         }
     },
     resetInterval:  function() {
@@ -84,6 +87,10 @@ $(document).ready(function(){
     initializeDocument();
     controller.createInterval();
 });
+
+function randomIntRange(min, max){
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
 function initializeDocument(){ //Adds CSS styles for myself and one of my friends so I can see the chats as they wiz by.
     hideall();
