@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.434
+// @version    0.435
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
-// @downloadUrl https://github.com/SonOfLysander/TwitchPlaysPokemon-FightForAnarchy/raw/master/twitch-pokemon-red.user.js
+// @downloadUrl https://raw.github.com/SonOfLysander/TwitchPlaysPokemon-FightForAnarchy/master/twitch-pokemon-red.user.js
 // ==/UserScript==
 
 var controller = {
