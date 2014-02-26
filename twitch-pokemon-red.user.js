@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.462
+// @version    0.463
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -20,7 +20,7 @@ var controller = {
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
     go: function(timeout){
-        this._intervalId = setTimeout(function(){controller._sendMessage();}, timeout === undefined ? randomIntRange(this._intervalMin, this._intervalMax) : timeout);
+        this._intervalId = setTimeout(function(){controller._sendMessage();}, timeout === undefined ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout);
     },
     stop: function(){
         if (this._intervalId !== null){
@@ -30,7 +30,7 @@ var controller = {
     _sendMessage: function() {
         var newInterval =
             this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
-            30500 : randomIntRange(this._intervalMin, this._intervalMax);
+            30500 : this._randomIntRange(this._intervalMin, this._intervalMax);
         if (controller._isChatConnected()){
             var msg = controller._playerMessage();
             $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
@@ -80,11 +80,10 @@ var controller = {
             return search.test($(this).text());
         });
         return x;
+    },
+    _randomIntRange: function(min, max){
+        return Math.floor(Math.random() * (max - min)) + min;
     }
-}
-
-function randomIntRange(min, max){
-    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function initializeDocument(){ //Adds CSS styles for myself and one of my friends so I can see the chats as they wiz by.
