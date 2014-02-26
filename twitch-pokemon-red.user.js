@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.437
+// @version    0.438
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -24,7 +24,7 @@ var controller = {
             }, Math.floor(Math.random() * 12000) + 3000);
         }
         if (!this.selfControllingInterval){
-            this.selfControllingInterval = setInterval(function(){this.resetInterval()}, 3400);
+            this.selfControllingInterval = setInterval(function(){controller.resetInterval()}, 3400);
         }
     },
     destroyInterval: function(){
