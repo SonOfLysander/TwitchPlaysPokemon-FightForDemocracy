@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.470
+// @version    0.471
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -24,7 +24,7 @@ var controller = {
                         'Maybe you should go to the pokecenter for that BURN', 'I really wanna go to bed... but I don\'t.'],
     go: function(timeout){
         this._interval =
-            (typeof timeout === 'undefined' ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout)
+            (timeout === undefined ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout)
              + (this._slowRoomDetected ? 30000 : 0);
 
         if (this._slowRoomIntervalIdA === null){
@@ -34,7 +34,7 @@ var controller = {
             }, 2500);
         }
         if (this._slowRoomIntervalIdB === null){
-            this._slowRoomIntervalIdB = setInterval(function(){controller._slowRoomDetected = false}, 45000);
+            this._slowRoomIntervalIdB = setInterval(function(){controller._slowRoomDetected = false;}, 45000);
         }
 
         this._intervalId = setTimeout(function(){
@@ -83,7 +83,7 @@ var controller = {
     },
     _findString: function(search, element) {
         search = (typeof search === 'RegExp') ? search : new RegExp('^\\s*' + String(search) + '\\s*$');
-        element = (typeof element === 'undefined') ? '*' : element;
+        element = (element === undefined) ? '*' : element;
         var x = $(element).filter(function () {
             return search.test($(this).text());
         });
@@ -92,6 +92,15 @@ var controller = {
     _randomIntRange: function(min, max){
         return Math.floor(Math.random() * (max - min)) + min;
     }
+};
+
+
+function hideall(){
+    var hdstl = $('<style>ul#chat_line_list li{ display: none; } li.line.fromjtv{ display: block!important; }</style>').appendTo($('html > head')); //hides all the chats.
+}
+function user(usrnm, hxclr){
+    var stl = $('<style>li[data-sender="' + usrnm + '"] { display: block!important;'  + (hxclr !== undefined ? 'background-color: ' + hxclr + ';' : '' ) +  '}</style>');
+    $('html > head').append(stl);
 }
 
 function initializeDocument(){ //Adds CSS styles for myself and one of my friends so I can see the chats as they wiz by.
@@ -101,14 +110,6 @@ function initializeDocument(){ //Adds CSS styles for myself and one of my friend
     // I'd change my mind.)
     user('sonoflysander');          //me
     user('bjwyxrs', '#BBF');        //my friend brian
-}
-
-function hideall(){
-    var hdstl = $('<style>ul#chat_line_list li{ display: none; } li.line.fromjtv{ display: block!important; }</style>').appendTo($('html > head')); //hides all the chats.
-}
-function user(usrnm, hxclr){
-    var stl = $('<style>li[data-sender="' + usrnm + '"] { display: block!important;'  + (hxclr !== undefined ? 'background-color: ' + hxclr + ';' : '' ) +  '}</style>');
-    $('html > head').append(stl);
 }
 
 $(document).ready(function(){
