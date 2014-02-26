@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.438
+// @version    0.439
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -12,8 +12,10 @@
 var controller = {
     messageInterval: null,
     selfControllingInterval: null,
+    intervalMilliseconds: null;
     createInterval: function() {
         if(!this.messageInterval){
+            var newInterval = Math.floor(Math.random() * 12000) + 3000);
             this.messageInterval = setInterval(function(){
                 if (isChatConnected()){
                     var msg = playerMessage();
@@ -21,11 +23,13 @@ var controller = {
                     $('#chat_text_input').val(msg);
                     $('#chat_speak').click();
                 }
-            }, Math.floor(Math.random() * 12000) + 3000);
+            }, newInterval);
+            intervalMilliseconds = newInterval;
         }
         if (!this.selfControllingInterval){
             this.selfControllingInterval = setInterval(function(){controller.resetInterval()}, 3400);
         }
+        console.log(this);
     },
     destroyInterval: function(){
         if (this.messageInterval){
