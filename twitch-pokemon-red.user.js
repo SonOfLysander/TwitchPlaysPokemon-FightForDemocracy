@@ -21,7 +21,8 @@ var controller = {
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'I don wannna sleeeeeeeeeeeeeeeep'],
     go: function(timeout){
-        this._intervalId = setTimeout(function(){controller._sendMessage();}, timeout === undefined ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout);
+        this._interval = timeout;
+        this._intervalId = setTimeout(function(){controller._sendMessage();}, typeof timeout === 'undefined' ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout);
     },
     stop: function(){
         if (this._intervalId !== null){
@@ -39,7 +40,6 @@ var controller = {
             $('#chat_speak').click();
         }
         this.go(newInterval);
-        this._interval = newInterval;
         console.log(this);
     },
     _playerMessage: function(){
@@ -65,13 +65,10 @@ var controller = {
         // work that matters.
         if ($('#chat_text_input').prop('disabled') == true){
             return false;
-        } else if ($('.js-chat_countdown').length == 0){
-            return true;
-        } else if (parseInt($('.js-chat_countdown:last').text(), 10) == 0 && Date.now() - this._timeLatencyMark >= 9000){
-            return true;               
-        } else {
-            this._timeLatencyMark = Date.now();
+        } else if ($('.js-chat_countdown').length > 0 && parseInt($('.js-chat_countdown:last').text(), 10) > 0){
             return false;
+        } else {
+            return true;
         }
     },
     _findString: function(search, element) {
