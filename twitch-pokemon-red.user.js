@@ -22,11 +22,20 @@ $(document).ready(function(){
 });
 
 function playerMessage(){
+    // I refactored because of the recent bot raid. I decided that even though I'm not doing
+    // anything particularly malicious, it would be best to put on a good face.
     var msg = 'select';
     var rnd = Math.random();
-    if (rnd >= 0.10){ //90 percent of the time, we'll input a game command
+    if (rnd < 0.90){ //90 percent of the time, we'll input a game command
         rnd = Math.random(); //reroll for clear-er sub percentages
-        msg = rnd >= 0.5 ? 'anarchy' : rnd >= 0.1 ? 'b' : rnd >= 0.05 ? 'a' : 'select';
+        msg = rnd >= 0.50 ? 'anarchy' :
+        rnd >= 0.10 ? 'b' :
+        rnd >= 0.05 ? 'a' : 'select';
+    } else { //10 percent of the time
+        rnd = Math.random();//reroll
+        msg = rnd >= 0.5 ? 'Why am I still awake?' :
+        rnd >= 0.25 ? 'I need to finish my homework' :
+        rnd >= 0.10 ? 'I need to go to bed T_T' : 'Stop being so newb, gaiz.';
     }
     return msg;
 }
