@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.455
+// @version    0.456
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -89,7 +89,7 @@ var controller = {
         }
     },
     _findString: function(search, element) {
-        search = (typeof search === 'string') ? new RegExp('^\\s*' + search + '\\s*$') : search;
+        search = (typeof search === 'RegExp') ? search : new RegExp('^\\s*' + String(search) + '\\s*$');
         element = (typeof element === 'undefined') ? '*' : element;
         var x = $(element).filter(function () {
             return search.test($(this).text());
