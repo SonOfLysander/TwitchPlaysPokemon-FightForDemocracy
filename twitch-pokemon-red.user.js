@@ -53,7 +53,7 @@ var controller = {
         if (this._randomizerIntervalId !== null){
             clearInterval(this._randomizerIntervalId);
         } else {
-            this._randomizerIntervalId = setInterval(function(){controller.resetInterval()}, this_randomizerInterval);
+            this._randomizerIntervalId = setInterval(function(){controller.resetInterval()}, this._randomizerInterval);
         }
     },
     _playerMessage: function(){
