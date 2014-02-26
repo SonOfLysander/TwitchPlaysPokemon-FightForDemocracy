@@ -1,29 +1,35 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.428
+// @version    0.430
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
-// @require		http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
+// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
+// @downloadUrl https://github.com/SonOfLysander/TwitchPlaysPokemon-FightForAnarchy/raw/master/twitch-pokemon-red.user.js
 // ==/UserScript==
 
 $(document).ready(function(){
     highlightPeeps();
     setInterval(function(){
         if (isChatConnected()){
-            var rnd = Math.random();
-            console.log(rnd);
-            // I probably should have just iterated over a JSON object for future flexibility.
-            // I don't think this wil see much more maintenence as a one-off-chat-bot. Changes
-            // might arise in the future though, so we'll see.
-            var msg = rnd >= 0.5 ? 'anarchy' : rnd >= 0.1 ? 'b' : rnd >= 0.05 ? 'a' : 'select';
+            var msg = playerMessage();
             $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
             $('#chat_text_input').val(msg);
             $('#chat_speak').click();
         }
     }, 3000);
 });
+
+function playerMessage(){
+    var msg = 'select';
+    var rnd = Math.random();
+    if (rnd >= 0.10){ //90 percent of the time, we'll input a game command
+        rnd = Math.random(); //reroll for clear-er sub percentages
+        msg = rnd >= 0.5 ? 'anarchy' : rnd >= 0.1 ? 'b' : rnd >= 0.05 ? 'a' : 'select';
+    }
+    return msg;
+}
 
 var timeLatencyMark = 0;
 
@@ -50,7 +56,7 @@ function highlightPeeps(){ //Adds CSS styles for myself and one of my friends so
     // (Maybe if we had our REST server fully setup and needed dynamic content then
     // I'd change my mind.)
     user('sonoflysander');          //me
-    user('bjwyxrs', '#BBF');		//my friend brian
+    user('bjwyxrs', '#BBF');        //my friend brian
 }
 
 function hideall(){
