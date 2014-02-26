@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.467
+// @version    0.468
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -21,7 +21,7 @@ var controller = {
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
-                        'Maybe you should go to the pokecenter for that BURN', 'I don wannna sleeeeeeeeeeeeeeeep'],
+                        'Maybe you should go to the pokecenter for that BURN', 'I really wanna go to bed... but I don\'t.'],
     go: function(timeout){
         this._interval =
             typeof timeout === 'undefined' ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout
