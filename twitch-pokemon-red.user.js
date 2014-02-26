@@ -15,7 +15,7 @@ var controller = {
     intervalMilliseconds: null,
     createInterval: function() {
         if(!this.messageInterval){
-            var newInterval = Math.floor(Math.random() * 12000) + 3000);
+            var newInterval = Math.floor(Math.random() * 12000) + 3000;
             this.messageInterval = setInterval(function(){
                 if (isChatConnected()){
                     var msg = playerMessage();
