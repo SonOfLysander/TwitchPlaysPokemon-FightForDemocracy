@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.477
+// @version    0.478
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, SonOfLysander
@@ -26,7 +26,7 @@ var controller = {
                         'Maybe you should go to the pokecenter for that BURN', 'I really wanna go to bed... but I don\'t.'],
     go: function(timeout, resetPage){
         if (resetPage == true && this._pageResetId === null){
-            this._pageResetId = setTimeout(function(){location.reload();}, 30000);
+            this._pageResetId = setTimeout(function(){location.reload();}, 300000);
         }
 
         this._interval =
