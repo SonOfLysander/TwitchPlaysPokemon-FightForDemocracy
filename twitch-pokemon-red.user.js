@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.464
+// @version    0.466
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -15,10 +15,11 @@ var controller = {
     _intervalMin: 3200,
     _intervalMax: 15000,
     _interval: null,
+    _slowModeRegex: /.*this\sroom\sis\s(?:now\s|)in\sslow\smode.*/i,
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
-                        'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
+                        'Maybe you should go to the pokecenter for that BURN', 'I don wannna sleeeeeeeeeeeeeeeep'],
     go: function(timeout){
         this._intervalId = setTimeout(function(){controller._sendMessage();}, timeout === undefined ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout);
     },
@@ -29,7 +30,7 @@ var controller = {
     },
     _sendMessage: function() {
         var newInterval =
-            this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
+            this._findString(this._slowModeRegex, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
             30500 : this._randomIntRange(this._intervalMin, this._intervalMax);
         if (controller._isChatConnected()){
             var msg = controller._playerMessage();
