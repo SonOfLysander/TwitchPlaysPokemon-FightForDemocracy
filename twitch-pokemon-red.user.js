@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.453
+// @version    0.454
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -22,7 +22,9 @@ var controller = {
                         'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
     createInterval: function() {
         if(this._controllerInterval === null){
-            var newInterval = this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? 30500 : randomIntRange(this.currentIntervalMin, this.currentIntervalMax);
+            var newInterval =
+                this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
+                30500 : randomIntRange(this.currentIntervalMin, this.currentIntervalMax);
             this._controllerInterval = setInterval(function(){
                 if (controller._isChatConnected()){
                     var msg = controller._playerMessage();
