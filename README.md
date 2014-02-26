@@ -1,4 +1,4 @@
-TwitchPlaysPokemon-FightFor~~Democracy~~Anarchy
+TwitchPlaysPokemon-FightFor<del>Democracy</del>Anarchy
 ====================================
 
 In a land ravaged by the constant battle between anarchy and democracy, you must learn how to fight for <del>democracy and the American way</del> freedom from ledges!
