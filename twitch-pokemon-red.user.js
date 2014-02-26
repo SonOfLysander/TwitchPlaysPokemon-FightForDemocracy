@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.472
+// @version    0.473
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -56,6 +56,7 @@ var controller = {
             $('#chat_speak').click();
         }
         console.log(msg);
+        this.go();
     },
     _playerMessage: function(){
         // I refactored because of the recent bot raid. I decided that even though I'm not doing
