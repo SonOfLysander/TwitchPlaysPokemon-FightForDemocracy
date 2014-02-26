@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.473
+// @version    0.475
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -10,13 +10,14 @@
 // ==/UserScript==
 
 var controller = {
-    _slowRoomIntervalIdA: null,
-    _slowRoomIntervalIdB: null,
-    _slowRoomDetected: false,
-    _intervalId: null,
+    _interval: null,
     _intervalMin: 3200,
     _intervalMax: 15000,
-    _interval: null,
+    _slowRoomDetected: false,
+    _slowRoomInterval: 30000,
+    _intervalId: null,
+    _slowRoomIntervalIdA: null,
+    _slowRoomIntervalIdB: null,
     _slowModeRegex: /.*this\sroom\sis\s(?:now\s|)in\sslow\smode.*/i,
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
@@ -25,7 +26,7 @@ var controller = {
     go: function(timeout){
         this._interval =
             (timeout === undefined ? this._randomIntRange(this._intervalMin, this._intervalMax) : timeout)
-             + (this._slowRoomDetected ? 30000 : 0);
+             + (this._slowRoomDetected ? this._slowRoomInterval : 0);
 
         if (this._slowRoomIntervalIdA === null){
             this._slowRoomIntervalIdA = setInterval(function(){
