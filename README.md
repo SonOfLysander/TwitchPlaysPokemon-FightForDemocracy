@@ -1,7 +1,7 @@
-TwitchPlaysPokemon-FightForDemocracy
+TwitchPlaysPokemon-FightFor~~Democracy~~Anarchy
 ====================================
 
-In a land ravaged by the constant battle between anarchy and democracy, you must learn how to fight for democracy and the American way!
+In a land ravaged by the constant battle between anarchy and democracy, you must learn how to fight for <del>democracy and the American way</del> freedom from ledges!
 
 For use on: http://www.twitch.tv/twitchplayspokemon
 
