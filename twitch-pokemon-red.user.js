@@ -92,11 +92,6 @@ var controller = {
     }
 }
 
-$(document).ready(function(){
-    initializeDocument();
-    controller.createInterval();
-});
-
 function randomIntRange(min, max){
     return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -117,3 +112,8 @@ function user(usrnm, hxclr){
     var stl = $('<style>li[data-sender="' + usrnm + '"] { display: block!important;'  + (hxclr !== undefined ? 'background-color: ' + hxclr + ';' : '' ) +  '}</style>');
     $('html > head').append(stl);
 }
+
+$(document).ready(function(){
+    initializeDocument();
+    controller.createInterval();
+});
