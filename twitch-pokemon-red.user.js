@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.461
+// @version    0.462
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -20,8 +20,13 @@ var controller = {
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
     go: function(timeout){
-        setTimeout(function(){controller._sendMessage();}, timeout === undefined ? randomIntRange(this._intervalMin, this._intervalMax) : timeout);
+        this._intervalId = setTimeout(function(){controller._sendMessage();}, timeout === undefined ? randomIntRange(this._intervalMin, this._intervalMax) : timeout);
     },
+    stop: function(){
+        if (this._intervalId !== null){
+            clearTimeout(this._intervalId);
+        }
+    }
     _sendMessage: function() {
         var newInterval =
             this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
