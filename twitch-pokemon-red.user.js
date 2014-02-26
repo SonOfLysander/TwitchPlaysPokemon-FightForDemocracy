@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.432
+// @version    0.433
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -9,16 +9,38 @@
 // @downloadUrl https://github.com/SonOfLysander/TwitchPlaysPokemon-FightForAnarchy/raw/master/twitch-pokemon-red.user.js
 // ==/UserScript==
 
-$(document).ready(function(){
-    highlightPeeps();
-    setInterval(function(){
-        if (isChatConnected()){
-            var msg = playerMessage();
-            $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
-            $('#chat_text_input').val(msg);
-            $('#chat_speak').click();
+var controller = {
+    messageInterval = null;
+    selfControllingInterval = null;
+    createInterval: function() {
+        if(!messageInterval){
+            messageInterval = setInterval(function(){
+                if (isChatConnected()){
+                    var msg = playerMessage();
+                    $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
+                    $('#chat_text_input').val(msg);
+                    $('#chat_speak').click();
+                }
+            }, Math.floor(Math.random() * 12000) + 3000);
         }
-    }, 3000);
+        if (!selfControllingInterval){
+            selfControllingInterval = setInterval(function(){this.resetInterval()}, 3400);
+        }
+    },
+    destroyInterval: function(){
+        if (messageInterval){
+            clearInterval(this.messageInterval);
+        }
+    },
+    resetInterval:  function() {
+        this.destroyInterval();
+        this.createInterval();
+    }
+}
+
+$(document).ready(function(){
+    initializeDocument();
+    controller.createInterval();
 });
 
 function playerMessage(){
@@ -26,12 +48,12 @@ function playerMessage(){
     // anything particularly malicious, it would be best to put on a good face.
     var msg = 'select';
     var rnd = Math.random();
-    if (rnd < 0.97){ //90 percent of the time, we'll input a game command
+    if (rnd < 0.97){ //97 percent of the time, we'll input a game command
         rnd = Math.random(); //reroll for clear-er sub percentages
         msg = rnd >= 0.50 ? 'anarchy' :
         rnd >= 0.10 ? 'b' :
         rnd >= 0.05 ? 'a' : 'select';
-    } else { //10 percent of the time
+    } else { //3 percent of the time
         var options = [ 'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
@@ -61,7 +83,7 @@ function isChatConnected(){
     }
 }
 
-function highlightPeeps(){ //Adds CSS styles for myself and one of my friends so I can see the chats as they wiz by.
+function initializeDocument(){ //Adds CSS styles for myself and one of my friends so I can see the chats as they wiz by.
     hideall();
     // should iterate over JSON, but it's just me and Brian so it's not important.
     // (Maybe if we had our REST server fully setup and needed dynamic content then
