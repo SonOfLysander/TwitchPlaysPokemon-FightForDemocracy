@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.475
+// @version    0.476
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
-// @copyright  2012+, You
+// @copyright  2012+, SonOfLysander
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @downloadUrl https://raw.github.com/SonOfLysander/TwitchPlaysPokemon-FightForAnarchy/master/twitch-pokemon-red.user.js
 // ==/UserScript==
@@ -21,7 +21,7 @@ var controller = {
     _slowModeRegex: /.*this\sroom\sis\s(?:now\s|)in\sslow\smode.*/i,
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
-                        'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
+                        'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!', 'In case anyone was lost: http://goo.gl/xBmwY5',
                         'Maybe you should go to the pokecenter for that BURN', 'I really wanna go to bed... but I don\'t.'],
     go: function(timeout){
         this._interval =
