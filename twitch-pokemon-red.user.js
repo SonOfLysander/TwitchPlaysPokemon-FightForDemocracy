@@ -26,7 +26,7 @@ var controller = {
         if (this._intervalId !== null){
             clearTimeout(this._intervalId);
         }
-    }
+    },
     _sendMessage: function() {
         var newInterval =
             this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
