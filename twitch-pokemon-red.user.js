@@ -2,7 +2,7 @@
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
 // @version    0.428
-// @description  Fight for democracy
+// @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
 // @require		http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
@@ -17,7 +17,7 @@ $(document).ready(function(){
             // I probably should have just iterated over a JSON object for future flexibility.
             // I don't think this wil see much more maintenence as a one-off-chat-bot. Changes
             // might arise in the future though, so we'll see.
-            var msg = rnd >= 0.5 ? 'democracy' : rnd >= 0.1 ? 'b' : rnd >= 0.05 ? 'a' : 'select';
+            var msg = rnd >= 0.5 ? 'anarchy' : rnd >= 0.1 ? 'b' : rnd >= 0.05 ? 'a' : 'select';
             $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
             $('#chat_text_input').val(msg);
             $('#chat_speak').click();
