@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.444
+// @version    0.445
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -15,7 +15,7 @@ var controller = {
     _timeLatencyMark: 0,
     currentIntervalMin: 3200,
     currentIntervalMax: 15000,
-    currentIntervalMill: null,
+    currentInterval: null,
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
@@ -31,10 +31,11 @@ var controller = {
                     $('#chat_speak').click();
                 }
             }, newInterval);
-            this.currentIntervalMill = newInterval;
+            this.currentInterval = newInterval;
         }
         if (this._randomizerInterval === null){
-            this._randomizerInterval = setInterval(function(){controller.resetInterval()}, 3400);
+            //every 34 seconds, we get a new random chat entry interval.
+            this._randomizerInterval = setInterval(function(){controller.resetInterval()}, 34000);
         }
         console.log(this);
     },
