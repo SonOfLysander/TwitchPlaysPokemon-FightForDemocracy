@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.457
+// @version    0.460
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -10,51 +10,31 @@
 // ==/UserScript==
 
 var controller = {
-    _controllerIntervalId: null,
-    _randomizerIntervalId: null,
     _timeLatencyMark: 0,
-    _randomizerInterval: 34000,
-    currentIntervalMin: 3200,
-    currentIntervalMax: 15000,
-    currentInterval: null,
+    _intervalId: null,
+    _intervalMin: 3200,
+    _intervalMax: 15000,
+    _interval: null,
     humanOptions: [    'Why am I still awake?', 'I wish I went to bed.', 'I need to go to bed.',
                         'T_T', 'stop being so newb, gaiz.', 'Helix, save us from these spambots.'/*Not including me.*/,
                         'Stop voting Democracy!', 'HELIXANDMOUNTAINDEWWILLSAVEMYGPA!!!',
                         'Maybe you should go to the pokecenter for that BURN', 'Sleeeeeeeeeeeeeeeep'],
-    createInterval: function() {
-        if(this._controllerIntervalId === null){
-            var newInterval =
-                this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
-                30500 : randomIntRange(this.currentIntervalMin, this.currentIntervalMax);
-            this._controllerIntervalId = setInterval(function(){
-                if (controller._isChatConnected()){
-                    var msg = controller._playerMessage();
-                    $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
-                    $('#chat_text_input').val(msg);
-                    $('#chat_speak').click();
-                }
-            }, newInterval);
-            this.currentInterval = newInterval;
+    go: function(timeout){
+        setTimeout(function(){this._sendMessage();}, timeout === undefined ? randomIntRange(this._intervalMin, this._intervalMax) : timeout);
+    },
+    _sendMessage: function() {
+        var newInterval =
+            this._findString(/this\sroom\sis\s(?:now\s|)in\sslow\smode/i, 'li.line.fromjtv').length ? // http://rubular.com/r/OyTeAqnboA
+            30500 : randomIntRange(this._intervalMin, this._intervalMax);
+        if (controller._isChatConnected()){
+            var msg = controller._playerMessage();
+            $('#chat_speak').click(); //makes sure that you don't have anything in the "buffer" that will interfere with what we want to bot-in.
+            $('#chat_text_input').val(msg);
+            $('#chat_speak').click();
         }
-        this._resetRandomizer();
+        this.go(newInterval);
+        this._interval = newInterval;
         console.log(this);
-    },
-    destroyInterval: function(){
-        if (this._controllerIntervalId !== null){
-            clearInterval(this._controllerIntervalId);
-            this._controllerIntervalId = null;
-        }
-    },
-    resetInterval:  function() {
-        this.destroyInterval();
-        this.createInterval();
-    },
-    _resetRandomizer: function(){
-        if (this._randomizerIntervalId !== null){
-            clearInterval(this._randomizerIntervalId);
-        } else {
-            this._randomizerIntervalId = setInterval(function(){controller.resetInterval()}, this._randomizerInterval);
-        }
     },
     _playerMessage: function(){
         // I refactored because of the recent bot raid. I decided that even though I'm not doing
@@ -121,5 +101,5 @@ function user(usrnm, hxclr){
 
 $(document).ready(function(){
     initializeDocument();
-    controller.createInterval();
+    controller.go();
 });
