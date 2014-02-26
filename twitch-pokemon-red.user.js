@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Twitch GM jQuery
 // @namespace  https://github.com/SonOfLysander
-// @version    0.440
+// @version    0.441
 // @description  Fight for anarchy!
 // @match      http://www.twitch.tv/twitchplayspokemon
 // @copyright  2012+, You
@@ -12,7 +12,7 @@
 var controller = {
     messageInterval: null,
     selfControllingInterval: null,
-    intervalMilliseconds: null;
+    intervalMilliseconds: null,
     createInterval: function() {
         if(!this.messageInterval){
             var newInterval = Math.floor(Math.random() * 12000) + 3000);
