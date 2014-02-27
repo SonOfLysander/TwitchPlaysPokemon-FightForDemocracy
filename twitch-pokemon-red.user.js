@@ -38,7 +38,7 @@ var controller = {
         if (this._slowRoomIntervalIdA === null){
             this._slowRoomIntervalIdA = setInterval(function(){
                 // http://rubular.com/r/OyTeAqnboA
-                controller._slowRoomDetected = controller._slowRoomDetected || controller._findString(controller._slowModeRegex, 'li.line.fromjtv').length > 0;
+                controller._slowRoomDetected = controller._slowRoomDetected || controller._findString(controller._slowModeRegex, 'li.line.fromjtv p').length > 0;
             }, 2500);
         }
         if (this._slowRoomIntervalIdB === null){
